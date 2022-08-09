@@ -3,8 +3,10 @@ package com.example.agendafirebase;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class ListaActivity extends ListActivity {
     private FirebaseDatabase basedatabase;
     private DatabaseReference referencia;
     private Button btnNuevo;
+    private Button btnSalir;
     final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +42,35 @@ public class ListaActivity extends ListActivity {
         referencia = basedatabase.getReferenceFromUrl(ReferenciasFirebase.URL_DATABASE
                         + ReferenciasFirebase.DATABASE_NAME + "/" +ReferenciasFirebase.TABLE_NAME);
         btnNuevo = (Button)findViewById(R.id.btnNuevo);
+        btnSalir = (Button) findViewById(R.id.btnSalir);
         obtenerContactos();
         btnNuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setResult(Activity.RESULT_CANCELED);
                 finish();
+            }
+        });
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder confirmar = new AlertDialog.Builder(ListaActivity.this);
+                confirmar.setTitle("¿Cerrar la aplicación?");
+                confirmar.setMessage("¿Está seguro de que desea cerrar la aplicación?");
+                confirmar.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moveTaskToBack(true);
+                        finish();
+                    }
+                });
+                confirmar.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                confirmar.show();
             }
         });
     }
@@ -103,11 +129,26 @@ public class ListaActivity extends ListActivity {
             btnBorrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    borrarContacto(objects.get(position).get_ID());
-                    objects.remove(position);
-                    notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Contacto eliminado con exito",
-                            Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder confirmar = new AlertDialog.Builder(ListaActivity.this);
+                    confirmar.setTitle("¿Borrar registro?");
+                    confirmar.setMessage("¿Está seguro de que desea borrar el registro?");
+                    confirmar.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            borrarContacto(objects.get(position).get_ID());
+                            objects.remove(position);
+                            notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(), "Contacto eliminado con exito",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    confirmar.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    confirmar.show();
+
                 }
             });
             btnModificar.setOnClickListener(new View.OnClickListener() {
@@ -126,4 +167,6 @@ public class ListaActivity extends ListActivity {
     public void borrarContacto(String childIndex){
         referencia.child(String.valueOf(childIndex)).removeValue();
     }
+
+
 }

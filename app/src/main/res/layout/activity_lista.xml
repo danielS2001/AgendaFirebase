@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ListaActivity"
     android:orientation="vertical">
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="396dp"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:layout_gravity="center"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,12 +20,17 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp">
-    <Button
-        android:id="@+id/btnNuevo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/nuevo" />
+        android:paddingTop="5dp">
+
+        <Button
+            android:id="@+id/btnNuevo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nuevo" />
+
+
+
+
     <TextView
         android:paddingTop="16dp"
         android:id="@+id/lblDisponibles"

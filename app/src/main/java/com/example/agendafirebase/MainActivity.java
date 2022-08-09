@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setEvents() {
         this.btnGuardar.setOnClickListener(this);
         this.btnListar.setOnClickListener(this);
-        this.btnListar.setOnClickListener(this);
+        this.btnLimpiar.setOnClickListener(this);
     }
     @Override
     public void onClick(View view)
